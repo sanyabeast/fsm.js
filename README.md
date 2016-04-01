@@ -1,2 +1,2 @@
 # JSSM
-JS state machine.
+JavaScript state-machine.
