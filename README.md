@@ -1,7 +1,7 @@
 # JSSM
 JavaScript finite state-machine.
 
-## What is it and what is it needed for
+## What it is and what it is needed for
 https://en.wikipedia.org/wiki/Finite-state_machine
 
 ## How to use 
