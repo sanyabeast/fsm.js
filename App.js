@@ -1,6 +1,6 @@
 'use strict';
 
-define(['JSSM_UMD'], function(JSSM){
+define(['JSSM'], function(JSSM){
 
     var App = function(){
 
