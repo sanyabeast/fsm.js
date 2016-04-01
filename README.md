@@ -97,7 +97,7 @@ turnstile.fsm.push(50);
 ```
 Other management things:
 ```
-var turnstile = new Turnstile;
+var turnstile = new Turnstile();
 
 /*Triggering events example*/
 turnstile.fsm.insetCoin();
