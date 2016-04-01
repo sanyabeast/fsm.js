@@ -6,7 +6,7 @@ https://en.wikipedia.org/wiki/Finite-state_machine
 
 ## How to use 
 
-1. Add JSSM as a dependency ot your module:
+1. Add JSSM as a dependency to your something:
 
 ```
 /*AMD-style example*/
@@ -15,7 +15,7 @@ define(['*path_to*/JSSM'], function(JSSM){
 })
 ```
 
-2. Create new finite state-machine using JSSM-constructor, passing description of state-machine as an argument:
+2. Create new finite state-machine using JSSM-constructor, passing object that describes state-machine as an argument:
 
 ```
 /*Adding state-machine to abstract Turnstail constructor*/
