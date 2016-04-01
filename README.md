@@ -95,7 +95,7 @@ turnstile.fsm.push(50);
 //Object {name: "push", from: "unlocked", to: "locked"}, 50
 
 ```
-Other things:
+Other management things:
 ```
 var turnstile = new Turnstile;
 
