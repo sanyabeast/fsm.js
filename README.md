@@ -55,6 +55,15 @@ define(['*path_to*/JSSM'], function(JSSM){
 ...
 ```
 
+## Work
+
+```
+/*triggering events example*/
+turnstile.fsm.insetCoin();
+turnstile.fsm.push();
+turnstile.fsm.inserCoin().push().inserCoin();
+```
+
 ## Settings
 ```
 ...
@@ -98,10 +107,6 @@ turnstile.fsm.push(50);
 Other management things:
 ```
 var turnstile = new Turnstile();
-
-/*Triggering events example*/
-turnstile.fsm.insetCoin();
-turnstile.fsm.push();
 
 /*Get current state name*/
 turnstile.fsm.current(); /*or*/ turnstile.fsm._current;
