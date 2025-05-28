@@ -1,124 +1,139 @@
 # JSSM
-JavaScript finite state-machine.
 
-## What it is and what it is needed for
-https://en.wikipedia.org/wiki/Finite-state_machine
+A lightweight JavaScript finite state machine library.
 
-## How to use 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-1. Add JSSM as a dependency to your something:
+## Overview
 
+JSSM is a simple yet powerful finite state machine implementation for JavaScript. It allows you to define states, transitions between them, and actions to execute during transitions.
+
+## Installation
+
+### npm
+```bash
+npm install jssm
 ```
-/*AMD-style example*/
-define(['*path_to*/JSSM'], function(JSSM){
-  ...
-})
+
+### Direct include
+```html
+<script src="path/to/jssm.min.js"></script>
 ```
 
-2. Create new finite state-machine using JSSM-constructor, passing object that describes state-machine as an argument:
-
-```
-/*Adding state-machine to abstract Turnstail constructor*/
-
-define(['*path_to*/JSSM'], function(JSSM){
-    var Turnstile = function(){
-    
-      this.fsm = new JSSM({
-        /*array of all possible transitions
-        contains of name of event that trigger transition,
-        one states or few states, when transition is possible and
-        a name of state, that machine shifts to if transition has been completed
-        */
-        transitions : [
-          /*Optional. Automatically invoking initialize-event from 'none-state'.
-          It cannot be retriggered.*/
-          { name : 'init'      , from : 'none'    , to : 'locked'  },
-          { name : 'insertCoin', from : 'locked'  , to : 'unlocked'},
-          { name : 'push'      , from : 'unlocked', to : 'locked'  }
-        ],
-        /*If needed. Actions that must be done to finish transition.*/
-        actions : {
-          init : init,
-          insertCoin : insertCoin,
-          push : push
-        },
-        /*Optional*/
-        context : this
-      });
-    };
-    
-    function init(){}
-    function inserCoin(){}
-    function push()
-    
+### AMD
+```javascript
+define(['path/to/JSSM'], function(JSSM) {
+  // Your code here
 });
-...
 ```
 
-## Work
+## Basic Usage
 
-```
-/*triggering events example*/
-turnstile.fsm.insetCoin();
-turnstile.fsm.push();
-turnstile.fsm.inserCoin().push().inserCoin();
+```javascript
+// Create a new state machine
+const turnstile = new JSSM({
+  transitions: [
+    // Initial state transition (automatically invoked)
+    { name: 'init', from: 'none', to: 'locked' },
+    
+    // Regular transitions
+    { name: 'insertCoin', from: 'locked', to: 'unlocked' },
+    { name: 'push', from: 'unlocked', to: 'locked' }
+  ],
+  
+  // Actions to execute during transitions
+  actions: {
+    init: function() {
+      console.log('Initialized to locked state');
+    },
+    insertCoin: function(info, coin) {
+      console.log(`Coin inserted: ${coin}`);
+    },
+    push: function(info) {
+      console.log('Turnstile pushed');
+    }
+  },
+  
+  // Optional context for actions
+  context: null
+});
 ```
 
-## Settings
-```
-...
-      this.fsm = new JSSM({
-        /*Optional. You can add 'setting' named object as property.
-        Here is default settings:
-        */
-        settings : {
-          log    : true,  /*Allow console logging during work*/
-          strict : false  /*Do not throw error if transition is not possible*/
-        },
-        transitions : [
-          { name : 'init'      , from : 'none'    , to : 'locked'  },
-          { name : 'insertCoin', from : 'locked'  , to : 'unlocked'},
-...   
-```
-## Management
-Object that contains transition info always passed as first argument to your callback:
+## Triggering Transitions
 
+```javascript
+// Trigger transitions
+turnstile.insertCoin(25); // Passes 25 as the coin value
+turnstile.push();
+
+// Chain transitions
+turnstile.insertCoin(25).push().insertCoin(25);
 ```
-this.fsm = new JSSM({
-  events : ...
-  actions : {
-    ...
-    push : push,
-    ...
+
+## Configuration
+
+```javascript
+const fsm = new JSSM({
+  // Optional settings
+  _settings: {
+    log: true,     // Enable console logging
+    strict: false, // Don't throw errors for invalid transitions
+    history: false // Don't track transition history
+  },
+  
+  transitions: [
+    // Your transitions here
+  ],
+  
+  actions: {
+    // Your actions here
   }
 });
+```
 
-...
-function push(/*obj*/info, /*coin*/coin){
-  console.log(info, coin);
+## State Management
+
+```javascript
+// Get current state
+const currentState = turnstile.current();  // or turnstile._current
+
+// Get previous state
+const previousState = turnstile._previous;
+
+// Check if a transition is possible
+if (turnstile.can('push')) {
+  console.log('Can push the turnstile');
 }
-...
-...
 
-turnstile.fsm.push(50);
-//Object {name: "push", from: "unlocked", to: "locked"}, 50
-
+// Check if a transition is not possible
+if (turnstile.cannot('insertCoin')) {
+  console.log('Cannot insert coin in current state');
+}
 ```
-Other management things:
+
+## Transition Info
+
+The transition info object is always passed as the first argument to action callbacks:
+
+```javascript
+function insertCoin(info, coin) {
+  console.log(info); 
+  // Outputs: { name: 'insertCoin', from: 'locked', to: 'unlocked' }
+  
+  console.log(`Inserted ${coin} cents`);
+}
 ```
-var turnstile = new Turnstile();
 
-/*Get current state name*/
-turnstile.fsm.current(); /*or*/ turnstile.fsm._current;
+## Advanced Usage
 
-/*Get prev. state name*/
-turnstile.fsm._previous;
+### Multiple 'from' States
 
-/*Check possibility*/
-turnstile.fsm.current();
-//'locked'
-turnstile.fsm.can('push');
-//false
-turnstile.fsm.cannot('insetCoin');
-//false
+```javascript
+// Allow transition from multiple states
+{ name: 'reset', from: ['locked', 'unlocked', 'broken'], to: 'locked' }
 ```
+
+## License
+
+MIT
+
