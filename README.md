@@ -10,11 +10,6 @@ JSSM is a simple yet powerful finite state machine implementation for JavaScript
 
 ## Installation
 
-### npm
-```bash
-npm install jssm
-```
-
 ### Direct include
 ```html
 <script src="path/to/jssm.min.js"></script>
